@@ -1,0 +1,6 @@
+---
+import Base from '../../layouts/Base.astro';
+const posts = import.meta.glob('../../content/writing/*.md', { eager: true });
+const articles = Object.entries(posts).map(([path, post]: any) => ({ ...post.frontmatter, url: `/writing/${path.split('/').pop().replace(/\.md$/, '')}/` })).filter(post => post.draft !== true).sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+---
+<Base title="Writing" description="Notes, experiments, and lessons from building software."><div class="page"><h1>Writing<span class="mark">.</span></h1><p class="pageintro">Experiments, observations, and ideas worth examining more closely.</p>{articles.map(post => <a href={post.url} class="entry"><small>{new Date(post.date).toLocaleDateString('en-US',{month:'short',year:'numeric'})} · {post.category || 'Notes'}</small><h3>{post.title}</h3><p>{post.description}</p></a>)}</div></Base>

@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { projects } from '../data/projects';
+const posts = import.meta.glob('../content/writing/*.md', { eager: true });
+const articles = Object.entries(posts).map(([path, post]: any) => ({ ...post.frontmatter, url: `/writing/${path.split('/').pop().replace(/\.md$/, '')}/` })).filter(post => post.draft !== true).sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+---
+<Base title="Home">
+  <section class="hero"><div class="eyebrow">Developer · Independent Builder</div><h1>Building, learning, and thinking in public<span class="mark">.</span></h1><p class="lead">Exploring AI agents, developer tools, and the ideas behind independent software. I share practical experiments, what worked, and what still needs testing.</p><div class="links"><a href="https://github.com/yelenLiu">GitHub ↗</a><a href="https://x.com/yelen480820">X / Twitter ↗</a></div></section>
+  <section class="section"><div class="section-head"><h2>Writing</h2><a href="/writing">View all →</a></div>{articles.slice(0,3).map(post => <a class="entry" href={post.url}><small>{new Date(post.date).toLocaleDateString('en-US',{month:'short',year:'numeric'})} · {post.category || 'Notes'}</small><h3>{post.title}</h3><p>{post.description}</p></a>)}</section>
+  <section class="section"><div class="section-head"><h2>Projects</h2><a href="/projects">View all →</a></div>{projects.map(project => <div class="entry project"><div><h3>{project.url ? <a href={project.url}>{project.name} ↗</a> : project.name}</h3><p>{project.description}</p></div><span class="pill">{project.tag}</span></div>)}</section>
+</Base>
