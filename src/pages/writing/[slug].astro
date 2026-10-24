@@ -8,4 +8,4 @@ const { post } = Astro.props;
 const { Content } = post;
 const { title, description, date, category } = post.frontmatter;
 ---
-<Base title={title} description={description}><article class="article"><header><div class="date">{new Date(date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})} · {category || 'Notes'}</div><h1>{title}</h1><p class="pageintro">{description}</p></header><div class="prose"><Content /></div></article></Base>
+<Base title={title} description={description} articleDate={date}><article class="article"><header><div class="date"><time datetime={new Date(date).toISOString()}>{new Date(date).toLocaleDateString('en-US',{timeZone:'UTC',month:'long',day:'numeric',year:'numeric'})}</time> · {category || 'Notes'}</div><h1>{title}</h1><p class="pageintro">{description}</p></header><div class="prose"><Content /></div></article></Base>

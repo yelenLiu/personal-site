@@ -5,7 +5,7 @@ export async function GET(context) {
     title: 'Yelen — Writing',
     description: 'Experiments in AI agents, developer tools, and independent building.',
     site: context.site,
-    items: Object.entries(posts).filter(([, post]) => post.frontmatter.draft !== true).map(([path, post]) => ({
+    items: Object.entries(posts).filter(([, post]) => post.frontmatter.draft !== true).sort(([, a], [, b]) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date)).map(([path, post]) => ({
       title: post.frontmatter.title,
       description: post.frontmatter.description,
       pubDate: new Date(post.frontmatter.date),
